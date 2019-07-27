@@ -1,0 +1,88 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Desafio previsão do tempo
+  </h1>
+</div>
+
+<div class="container">
+  <div class="card-block">
+    <div id="morris-extra-area"></div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-sm-12 col-md-6">
+      <select name="state" (change)="getCities($event.target.value)" name="state" class="form-control">
+        <option *ngFor="let state of states" [value]="state.id"> 
+          {{ state.estado }}
+        </option>     
+      </select>
+    </div>
+    <div class="col-12 col-sm-12 col-md-6">
+      <select class="custom-select" (change)="getInformations($event.target.value)" id="inputGroupSelect02">
+        <option *ngFor="let city of cities; let i= index" [value]="i">{{city.cidade }}</option>
+      </select>
+    </div>
+  </div>
+</div>
+<div class="container" style="margin-top: 20px;">
+  <div class="card" style="width: 30rem;">
+    <div class="card-body">    
+      <h5 class="card-title">Temperatura atual em {{response?.name}} - {{response?.state}}</h5>
+      <p class="card-text">{{response?.data[0].text_icon.text.pt}}</p>
+      <div class="card-group">
+        <div class="card">
+          <img src="../assets/icons/128px/{{response?.data[0].text_icon.icon.morning}}.png" style="margin: auto;" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Manhã</h5>
+            <ul class="list-group" style="text-align: left" >
+                <li class="list-group-item"> <fa-icon [icon] = "faArrowUp" style="color: red;"></fa-icon> Max: {{response?.data[0].temperature.morning.max}}° </li>
+                <li class="list-group-item"> <fa-icon [icon] = "faArrowDown" style="color: blue;"></fa-icon>Min: {{response?.data[0].temperature.morning.min}}°</li>
+            </ul>   
+          </div>
+        </div>
+        <div class="card">
+          <img src="../assets/icons/128px/{{response?.data[0].text_icon.icon.afternoon}}.png"  style="margin: auto;" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Tarde</h5>
+            <ul class="list-group" style="text-align: left" >
+                <li class="list-group-item"> <fa-icon [icon] = "faArrowUp" style="color: red;"></fa-icon> Max: {{response?.data[0].temperature.afternoon.max}}° </li>
+                <li class="list-group-item"> <fa-icon [icon] = "faArrowDown" style="color: blue;"></fa-icon>Min: {{response?.data[0].temperature.afternoon.min}}°</li>
+            </ul>   
+          </div>
+        </div>
+        <div class="card">
+          <img src="../assets/icons/128px/{{response?.data[0].text_icon.icon.night}}.png" style="margin: auto;" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Noite</h5>
+            <ul class="list-group" style="text-align: left" >
+                <li class="list-group-item"> <fa-icon [icon] = "faArrowUp" style="color: red;"></fa-icon> Max: {{response?.data[0].temperature.night.max}}° </li>
+                <li class="list-group-item"> <fa-icon [icon] = "faArrowDown" style="color: blue;"></fa-icon>Min: {{response?.data[0].temperature.night.min}}°</li>
+            </ul>   
+          </div>
+        </div>
+      </div>  
+    </div>
+  </div>
+</div>
+<div class="container" style="margin-top: 20px;">
+  <div class="card-group">
+    <div class="card" *ngFor="let day of response?.data">
+      <img src="../assets/icons/70px/{{day.text_icon.icon.day}}.png" style="margin: auto;" alt="...">
+      <div class="card-body">
+        <h5 class="card-title"> {{day.date_br}}</h5>
+        <ul class="list-group" style="text-align: left" >
+          <li class="list-group-item"> <fa-icon [icon] = "faArrowUp" style="color: red;"></fa-icon> Max: {{day.temperature.afternoon.max}}° </li>
+          <li class="list-group-item"> <fa-icon [icon] = "faArrowDown" style="color: blue;"></fa-icon>Min: {{day.temperature.afternoon.min}}°</li>
+        </ul>   
+        <p class="card-text">{{day.text_icon.text.pt}}</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<router-outlet></router-outlet>
