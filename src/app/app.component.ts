@@ -42,6 +42,8 @@ export class AppComponent implements OnInit  {
         this.getCities('SC');
         localStorage.setItem('state', 'SC');
         localStorage.setItem('city', 'Blumenau');
+        this.stateSelected = 'SC';
+        this.citySelected = 'Blumenau';
       }
       this.getInformations();
       this.loading = false;
