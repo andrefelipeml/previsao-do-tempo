@@ -26,11 +26,11 @@ export class AppComponent  {
   stateSelected: any;
   public loading: boolean;
   forecastNextDays = new Array();
+  whatDoOnweekend = new Array();
 
   constructor(private climaTempoService: ClimaTempoService) {
     this.loading = true;
     this.climaTempoService.getStates().subscribe(x => {
-      console.log('States', x);
       this.states = x;
       const state = localStorage.getItem('state');
       const city = localStorage.getItem('city');
@@ -62,21 +62,48 @@ export class AppComponent  {
   getInformations() {
     this.loading = true;
     this.climaTempoService.getCityId(this.stateSelected, this.citySelected).subscribe(city => {
-      this.climaTempoService.get(city.id).subscribe(x => {
+      this.climaTempoService.get(4790).subscribe(x => {
         this.response = x;
         this.loading = false;
-        this.forecastNextDays = x['data'].splice(1, 5);
+
+        this.forecastNextDays = x['data'].splice(1);
+        this.forecastNextDays.forEach(y => {
+          if (new Date(y.date).getUTCDay()%6==0) {
+              this.weekend(y);
+          }
+        });
         this.graphics();
       });
-    });
+   });
   }
 
-  favoriteCity(){
+  favoriteCity() {
     localStorage.setItem('state', this.stateSelected);
     localStorage.setItem('city', this.citySelected);
   }
 
-  graphics(){
+
+  weekend(day) {
+    if (this.whatDoOnweekend.length > 0 && this.whatDoOnweekend[0].rain && day.rain.probability > 0) {
+      // chuva chuva
+      this.whatDoOnweekend = [];
+      this.whatDoOnweekend.push({rain: true, text: `Final de semana com chuva, que tal ler um livro,
+      começar uma nova série na netflix ou aprender algo novo`});
+    } else if (this.whatDoOnweekend.length > 0 && !this.whatDoOnweekend[0].rain && day.rain.probability === 0) {
+      // sol sol
+      this.whatDoOnweekend = [];
+      this.whatDoOnweekend.push({rain: false, text: `Final de semana com sol, Que tal curtir um tempo ao ar livre? fazer um piquenique,
+       andar de bicicleta pela cidade ou aprender um novo esporte?`});
+    } else if (day.rain.probability > 0) {
+      this.whatDoOnweekend.push({rain: true, text: `${day.date_br}: vai chover, que tal ler um livro,
+      ou começar uma nova série na netflix?`});
+    } else {
+      this.whatDoOnweekend.push({rain: false, text: `${day.date_br}: vai dar sol, Que tal curtir um tempo ao ar livre?
+      fazer um piquenique, andar de bicicleta pela cidade ou aprender um novo esporte?`});
+    }
+  }
+
+  graphics() {
     const dataMax = [];
     const dataMin = [];
     // '#0000FF',
@@ -88,12 +115,8 @@ export class AppComponent  {
       Morris.Line({
         element: 'morris-extra-area-max',
         data: dataMax,
-        // The name of the data record attribute that contains x-values.
         xkey: 'day',
-        // A list of names of data record attributes that contain y-values.
         ykeys: ['max'],
-        // Labels for the ykeys -- will be displayed when you hover over the
-        // chart.
         labels: ['Maximo'],
         hideHover: false,
         resize: true,
@@ -106,12 +129,8 @@ export class AppComponent  {
       Morris.Line({
         element: 'morris-extra-area-min',
         data: dataMin,
-        // The name of the data record attribute that contains x-values.
         xkey: 'day',
-        // A list of names of data record attributes that contain y-values.
         ykeys: ['min'],
-        // Labels for the ykeys -- will be displayed when you hover over the
-        // chart.
         labels: ['Minimo'],
         hideHover: false,
         resize: true,
