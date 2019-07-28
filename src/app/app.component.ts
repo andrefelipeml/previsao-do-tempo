@@ -13,7 +13,7 @@ declare var Morris: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.sass']
 })
-export class AppComponent implements OnInit  {
+export class AppComponent  {
 
   response;
   title = 'tempo-clima';
@@ -51,8 +51,6 @@ export class AppComponent implements OnInit  {
 
   }
 
-  ngOnInit(): void { }
-
  async getCities(id: string) {
     this.loading = true;
     this.climaTempoService.getCities(id).subscribe(x => {
@@ -64,10 +62,11 @@ export class AppComponent implements OnInit  {
   getInformations() {
     this.loading = true;
     this.climaTempoService.getCityId(this.stateSelected, this.citySelected).subscribe(city => {
-      this.climaTempoService.get(city[0].id).subscribe(x => {
+      this.climaTempoService.get(city.id).subscribe(x => {
         this.response = x;
         this.loading = false;
         this.forecastNextDays = x['data'].splice(1, 5);
+        this.graphics();
       });
     });
   }
@@ -75,5 +74,53 @@ export class AppComponent implements OnInit  {
   favoriteCity(){
     localStorage.setItem('state', this.stateSelected);
     localStorage.setItem('city', this.citySelected);
+  }
+
+  graphics(){
+    const dataMax = [];
+    const dataMin = [];
+    // '#0000FF',
+    this.forecastNextDays.forEach(x => {
+      dataMax.push({ day: x.date, max: x.temperature.max });
+      dataMin.push({ day: x.date, min: x.temperature.min });
+    });
+    setTimeout(() => {
+      Morris.Line({
+        element: 'morris-extra-area-max',
+        data: dataMax,
+        // The name of the data record attribute that contains x-values.
+        xkey: 'day',
+        // A list of names of data record attributes that contain y-values.
+        ykeys: ['max'],
+        // Labels for the ykeys -- will be displayed when you hover over the
+        // chart.
+        labels: ['Maximo'],
+        hideHover: false,
+        resize: true,
+        smooth: false,
+        ymax: 'auto',
+        ymin: 'auto',
+        xLabels: 'day',
+        lineColors: [ '#FF0000']
+      });
+      Morris.Line({
+        element: 'morris-extra-area-min',
+        data: dataMin,
+        // The name of the data record attribute that contains x-values.
+        xkey: 'day',
+        // A list of names of data record attributes that contain y-values.
+        ykeys: ['min'],
+        // Labels for the ykeys -- will be displayed when you hover over the
+        // chart.
+        labels: ['Minimo'],
+        hideHover: false,
+        resize: true,
+        smooth: false,
+        ymax: 'auto',
+        ymin: 'auto',
+        xLabels: 'day',
+        lineColors: [ '#0000FF']
+      });
+    });
   }
 }
