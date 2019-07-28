@@ -14,7 +14,7 @@
       </select>
     </div>
     <div class="col-12 col-sm-12 col-md-5">
-      <select name="city" #city="ngModel"  [(ngModel)]="citySelected" class="custom-select" (change)="getInformations($event.target.value)" id="inputGroupSelect02">
+      <select name="city" #city="ngModel"  [(ngModel)]="citySelected" class="custom-select" (change)="getInformations()">
         <option *ngFor="let city of cities" [value]="city.cidade">{{city.cidade }}</option>
       </select>
     </div>
