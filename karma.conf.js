@@ -27,6 +27,23 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
+    captureTimeout: 60000,
+    browserDisconnectTimeout : 10000,
+    browserDisconnectTolerance : 1,
+    browserNoActivityTimeout : 60000,
+    customLaunchers: {
+      chrome_with_debugging: {
+        base: 'Chrome',
+        flags: ['--remote-debugging-port=9222'],
+        debug: true
+      }
+    },
+    files: [
+      "node_modules/jquery/dist/jquery.min.js",
+      "node_modules/jquery-sparkline/jquery.sparkline.min.js",
+      "node_modules/raphael/raphael.js",
+      "node_modules/morris.js/morris.js"
+    ],
   });
 };

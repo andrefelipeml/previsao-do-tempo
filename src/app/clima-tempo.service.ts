@@ -12,8 +12,8 @@ export class ClimaTempoService {
   token = '9612814012618a1ff330afef395aad92';
   constructor(public http: HttpClient) { }
 
-  getStates(): Observable<State> {
-    return this.http.get<State>('https://br-cidade-estado-nodejs.glitch.me/estados/');
+  getStates(): Observable<State[]> {
+    return this.http.get<State[]>('https://br-cidade-estado-nodejs.glitch.me/estados/');
   }
 
   getCities(stateId): Observable<City> {
@@ -21,15 +21,12 @@ export class ClimaTempoService {
 }
 
   get(id) {
-     return this.http.get(`${this.url}forecast/locale/${id}/days/15?token=${this.token}`);
+    return this.http.get(`${this.url}forecast/locale/${id}/days/15?token=${this.token}`);
   }
 
-  getCityId(state, city) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-      })};
-    return this.http.get(`${this.url}locale/city?name=${city}&state=${state}&token=${this.token}`);
+  getCityId(state, city): Observable<City[]> {
+    return this.http.get<City[]>(`${this.url}locale/city?name=${city}&state=${state}&token=${this.token}`);
+    
   }
 
 }

@@ -7,7 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "sass"
+          "styleext": "sass"
         }
       },
       "root": "",
@@ -94,9 +94,19 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.sass"
+              "src/styles.sass",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": []
+            "codeCoverageExclude": [
+              "/**/*mock*.ts",
+              "/**/**/*service*.ts"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/raphael/raphael.js",
+              "node_modules/morris.js/morris.js",
+              "node_modules/jquery-sparkline/jquery.sparkline.min.js"
+            ]
           }
         },
         "lint": {

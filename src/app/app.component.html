@@ -8,15 +8,16 @@
 <div class="container">
   <div class="row">
     <div class="col-12 col-sm-12 col-md-5">
-      <select name="state" #state="ngModel"  [(ngModel)]="stateSelected" (change)="getCities(stateSelected)" name="state" class="form-control" >
-        <option *ngFor="let state of states" [value]="state.id"> {{state.estado}}
+      <select name="state" #state="ngModel" id="state" [(ngModel)]="stateSelected" (change)="getCities(stateSelected)" name="state" class="form-control" >
+        <option *ngFor="let state of states" [id]="state.id" [value]="state.id"> {{state.estado}}
         </option>     
       </select>
     </div>
     <div class="col-12 col-sm-12 col-md-5">
-      <select name="city" #city="ngModel"  [(ngModel)]="citySelected" class="custom-select" (change)="getInformations()">
-        <option *ngFor="let city of cities" [value]="city.cidade">{{city.cidade }}</option>
-      </select>
+        <input name="city" #city="ngModel"  id="city" [(ngModel)]="citySelected" (change)="getInformations()" class="form-control" type="text" list="cityIds" />
+        <datalist id="cityIds">
+            <option *ngFor="let city of cities; let i = index" [id]="i" [value]="city.cidade">{{city.cidade }}</option>
+        </datalist>
     </div>
     <div class="col-12 col-sm-12 col-md-2">
       <button class="btn btn-primary" (click)="favoriteCity()">Favoritar Cidade</button>
@@ -80,7 +81,7 @@
     <div class="card-group">
       <h5 class="card-title"> Previsão para os próximos dias</h5>
       <div class="row">
-        <div class="card border col-6 col-sm-4 col-md-3 col-lg-2" *ngFor="let day of forecastNextDays">
+        <div class="card border col-6 col-sm-4 col-md-3 col-lg-2"   *ngFor="let day of forecastNextDays">
           <img src="../assets/icons/70px/{{day.text_icon.icon.day}}.png" style="margin: auto;">
           <div class="card-body">
             <h5 class="card-title"> {{day.date_br}}</h5>
@@ -110,7 +111,6 @@
       </div>
     </div>
   </div>
-    
 </div>
   <ng-template #loader>  
     <div class="container" style="margin-top: 20px;">

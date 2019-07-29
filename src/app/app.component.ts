@@ -6,8 +6,7 @@ import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { faCloudSun } from '@fortawesome/free-solid-svg-icons';
 
-declare const $: any;
-declare var Morris: any;
+ declare var Morris: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,7 +19,7 @@ export class AppComponent  {
   faArrowUp = faArrowUp;
   faArrowDown = faArrowDown;
   faCloudSun = faCloudSun;
-  states: State;
+  states: State[];
   cities: City;
   citySelected: any;
   stateSelected: any;
@@ -30,6 +29,10 @@ export class AppComponent  {
 
   constructor(private climaTempoService: ClimaTempoService) {
     this.loading = true;
+    this.getStates();
+  }
+
+  getStates() {
     this.climaTempoService.getStates().subscribe(x => {
       this.states = x;
       const state = localStorage.getItem('state');
@@ -61,18 +64,17 @@ export class AppComponent  {
 
   getInformations() {
     this.loading = true;
-    this.climaTempoService.getCityId(this.stateSelected, this.citySelected).subscribe(city => {
-      this.climaTempoService.get(4790).subscribe(x => {
+    this.climaTempoService.getCityId(this.stateSelected, this.citySelected).subscribe((city: City[]) => {
+      this.climaTempoService.get(city[0].id).subscribe(x => {
         this.response = x;
-        this.loading = false;
-
         this.forecastNextDays = x['data'].splice(1);
         this.forecastNextDays.forEach(y => {
           if (new Date(y.date).getUTCDay()%6==0) {
-              this.weekend(y);
+            this.weekend(y);
           }
         });
         this.graphics();
+        this.loading = false;
       });
    });
   }
@@ -88,7 +90,7 @@ export class AppComponent  {
       // chuva chuva
       this.whatDoOnweekend = [];
       this.whatDoOnweekend.push({rain: true, text: `Final de semana com chuva, que tal ler um livro,
-      começar uma nova série na netflix ou aprender algo novo`});
+      começar uma nova série na netflix ou aprender algo novo?`});
     } else if (this.whatDoOnweekend.length > 0 && !this.whatDoOnweekend[0].rain && day.rain.probability === 0) {
       // sol sol
       this.whatDoOnweekend = [];

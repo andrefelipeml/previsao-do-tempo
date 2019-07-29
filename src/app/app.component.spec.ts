@@ -1,35 +1,53 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FormsModule } from '@angular/forms';
+import { ClimaTempoService } from './clima-tempo.service';
+import { ClimaTempoServiceMock } from './clima-tempo.service.mock';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { State } from 'src/models/state';
 
 describe('AppComponent', () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
       declarations: [
-        AppComponent
+        AppComponent,
       ],
+      imports: [
+        HttpClientTestingModule,
+        FormsModule
+      ],
+      providers: [
+        {
+          provide: ClimaTempoService,
+          useClass: ClimaTempoServiceMock
+        }
+      ],
+      schemas: [ NO_ERRORS_SCHEMA ]
     }).compileComponents();
   }));
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
   });
 
-  it(`should have as title 'tempo-clima'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('tempo-clima');
-  });
 
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to tempo-clima!');
+  it('deve buscar estados e cidades', () => {
+    const spy = spyOn(component['climaTempoService'], 'getStates').and.callThrough();
+    component.getStates();
+    expect(spy).toHaveBeenCalled();
+    let state = new Object();
+    state = {id: 'DF', estado: 'Distrito Federal' };
+    expect(component.states).toContain(state as State);
+    expect(component.cities).toContain({
+      estadoId: 'DF',
+      cidade: 'Brasília',
+      capital: true
+    });
   });
 });

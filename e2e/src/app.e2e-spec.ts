@@ -1,5 +1,6 @@
 import { AppPage } from './app.po';
-import { browser, logging } from 'protractor';
+import { browser, logging, Key } from 'protractor';
+import { $, $$} from 'protractor';
 
 describe('workspace-project App', () => {
   let page: AppPage;
@@ -8,16 +9,18 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should be favorite city', async () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('Welcome to tempo-clima!');
+    await $('#state').click();
+    await $('#PR').click();
+    await $('#city').sendKeys(Key.chord(Key.CONTROL, 'a', '\b'));
+    await $('#city').click();
+    await $('#city').sendKeys('Francisco Beltrão');
+    await $('#city').sendKeys(Key.chord(Key.ENTER));
+    await $('.btn.btn-primary').click();
+    await browser.refresh();
+    await expect($('#city').getAttribute('value')).toBe('Francisco Beltrão');
+
   });
 
-  afterEach(async () => {
-    // Assert that there are no errors emitted from the browser
-    const logs = await browser.manage().logs().get(logging.Type.BROWSER);
-    expect(logs).not.toContain(jasmine.objectContaining({
-      level: logging.Level.SEVERE,
-    } as logging.Entry));
-  });
 });
