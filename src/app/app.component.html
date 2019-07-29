@@ -4,120 +4,137 @@
     Previsão do tempo
   </h1>
 </div>
-
 <div class="container">
   <div class="row">
     <div class="col-12 col-sm-12 col-md-5">
-      <select name="state" #state="ngModel" id="state" [(ngModel)]="stateSelected" (change)="getCities(stateSelected)" name="state" class="form-control" >
+      <select name="state" #state="ngModel" id="state" [(ngModel)]="stateSelected" (change)="getCities(stateSelected)"
+        name="state" class="form-control">
         <option *ngFor="let state of states" [id]="state.id" [value]="state.id"> {{state.estado}}
-        </option>     
+        </option>
       </select>
     </div>
     <div class="col-12 col-sm-12 col-md-5">
-        <input name="city" #city="ngModel"  id="city" [(ngModel)]="citySelected" (change)="getInformations()" class="form-control" type="text" list="cityIds" />
-        <datalist id="cityIds">
-            <option *ngFor="let city of cities; let i = index" [id]="i" [value]="city.cidade">{{city.cidade }}</option>
-        </datalist>
+      <input name="city" #city="ngModel" id="city" [(ngModel)]="citySelected" (change)="getInformations()"
+        class="form-control" type="text" list="cityIds" />
+      <datalist id="cityIds">
+        <option *ngFor="let city of cities; let i = index" [id]="i" [value]="city.cidade">{{city.cidade }}</option>
+      </datalist>
     </div>
     <div class="col-12 col-sm-12 col-md-2">
       <button class="btn btn-primary" (click)="favoriteCity()">Favoritar Cidade</button>
     </div>
   </div>
 </div>
-<div class="container" *ngIf="!loading; else loader"> 
-  <div  style="margin-top: 20px;">
-    <div class="card-group" >
-      <div class="card">
-        <div class="card-body">    
-        <h5 class="card-title">Temperatura atual em {{response?.name}} - {{response?.state}}</h5>
-        <p class="card-text">{{response?.data[0].text_icon.text.pt}}</p>
-        <div class="card-group">
-          <div class="row">
-            <div class="card col-6 col-sm-4 col-md-4 col-lg-4">
-              <img src="../assets/icons/128px/{{response?.data[0].text_icon.icon.morning}}.png" style="margin: auto;">
-              <div class="card-body">
-                <h5 class="card-title">Manhã</h5>
-                <ul class="list-group" style="text-align: left" >
-                  <li class="list-group-item"> <fa-icon [icon] = "faArrowUp" style="color: red;"></fa-icon> Max: {{response?.data[0].temperature.morning.max}}° </li>
-                  <li class="list-group-item"> <fa-icon [icon] = "faArrowDown" style="color: blue;"></fa-icon>Min: {{response?.data[0].temperature.morning.min}}°</li>
-                </ul>   
-              </div>
-            </div>
-            <div class="card col-6 col-sm-4 col-md-4 col-lg-4">
-              <img src="../assets/icons/128px/{{response?.data[0].text_icon.icon.afternoon}}.png"  style="margin: auto;" >
-              <div class="card-body">
-                <h5 class="card-title">Tarde</h5>
-                <ul class="list-group" style="text-align: left" >
-                  <li class="list-group-item"> <fa-icon [icon] = "faArrowUp" style="color: red;"></fa-icon> Max: {{response?.data[0].temperature.afternoon.max}}° </li>
-                  <li class="list-group-item"> <fa-icon [icon] = "faArrowDown" style="color: blue;"></fa-icon>Min: {{response?.data[0].temperature.afternoon.min}}°</li>
-                </ul>   
-              </div>
-            </div>
-            <div class="card col-6 col-sm-4 col-md-4 col-lg-4">
-              <img src="../assets/icons/128px/{{response?.data[0].text_icon.icon.night}}.png" style="margin: auto;" >
-              <div class="card-body">
-                <h5 class="card-title">Noite</h5>
-                <ul class="list-group" style="text-align: left" >
-                  <li class="list-group-item"> <fa-icon [icon] = "faArrowUp" style="color: red;"></fa-icon> Max: {{response?.data[0].temperature.night.max}}° </li>
-                  <li class="list-group-item"> <fa-icon [icon] = "faArrowDown" style="color: blue;"></fa-icon>Min: {{response?.data[0].temperature.night.min}}°</li>
-                </ul>
-              </div>
-            </div>
+<div class="container" *ngIf="!loading; else loader">
+  <div class="panel panel-default" style="margin-top: 20px;">
+    <div class="panel-heading panel-title">Temperatura atual em {{response?.name}} - {{response?.state}}</div>
+    <div class="panel-body">
+      <div class="col-6 col-sm-3 col-md-3 col-lg-3">
+        <div class="thumbnail">
+          <div class="panel-heading">
+            <h3 class="panel-title">Manhã</h3>
           </div>
+          <img src="../assets/icons/128px/{{response?.data[0].text_icon.icon.morning}}.png" style="margin: auto;">
+          <ul class="list-group" style="text-align: left">
+            <li class="list-group-item">
+              <fa-icon [icon]="faArrowUp" style="color: red;"></fa-icon> Max:
+              {{response?.data[0].temperature.morning.max}}°
+            </li>
+            <li class="list-group-item">
+              <fa-icon [icon]="faArrowDown" style="color: blue;"></fa-icon>Min:
+              {{response?.data[0].temperature.morning.min}}°
+            </li>
+          </ul>
         </div>
+      </div>
+      <div class="col-6 col-sm-3 col-md-3 col-lg-3">
+        <div class="thumbnail">
+          <div class="panel-heading">
+            <h3 class="panel-title">Tarde</h3>
+          </div>
+          <img src="../assets/icons/128px/{{response?.data[0].text_icon.icon.afternoon}}.png" style="margin: auto;">
+          <ul class="list-group" style="text-align: left">
+            <li class="list-group-item">
+              <fa-icon [icon]="faArrowUp" style="color: red;"></fa-icon> Max:
+              {{response?.data[0].temperature.afternoon.max}}°
+            </li>
+            <li class="list-group-item">
+              <fa-icon [icon]="faArrowDown" style="color: blue;"></fa-icon>Min:
+              {{response?.data[0].temperature.afternoon.min}}°
+            </li>
+          </ul>
         </div>
-      </div>  
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Oque fazer no final de semana?</h5>
-          <ul class="list-group" style="text-align: left" >
-              <li class="list-group-item"*ngFor="let a of whatDoOnweekend"> {{a.text}} </li>
+      </div>
+      <div class="col-6 col-sm-3 col-md-3 col-lg-3">
+        <div class="thumbnail">
+          <div class="panel-heading">
+            <h3 class="panel-title">Noite</h3>
+          </div>
+          <img src="../assets/icons/128px/{{response?.data[0].text_icon.icon.night}}.png" style="margin: auto;">
+          <ul class="list-group" style="text-align: left">
+            <li class="list-group-item">
+              <fa-icon [icon]="faArrowUp" style="color: red;"></fa-icon> Max:
+              {{response?.data[0].temperature.night.max}}°
+            </li>
+            <li class="list-group-item">
+              <fa-icon [icon]="faArrowDown" style="color: blue;"></fa-icon>Min:
+              {{response?.data[0].temperature.night.min}}°
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-6 col-sm-6 col-md-3 col-lg-3">
+        <div class="thumbnail">
+          <h5 class="panel-title">Oque fazer no final de semana?</h5>
+          <ul class="list-group" style="text-align: left">
+            <li class="list-group-item" *ngFor="let a of whatDoOnweekend"> {{a.text}} </li>
           </ul>
         </div>
       </div>
     </div>
   </div>
-  <div class="container" style="margin-top: 20px;">
-    <div class="card-group">
-      <h5 class="card-title"> Previsão para os próximos dias</h5>
-      <div class="row">
-        <div class="card border col-6 col-sm-4 col-md-3 col-lg-2"   *ngFor="let day of forecastNextDays">
-          <img src="../assets/icons/70px/{{day.text_icon.icon.day}}.png" style="margin: auto;">
-          <div class="card-body">
-            <h5 class="card-title"> {{day.date_br}}</h5>
-            <ul class="list-group" style="text-align: left" >
-                <li class="list-group-item"> <fa-icon [icon] = "faArrowUp" style="color: red;"></fa-icon> Max: {{day.temperature.max}}° </li>
-                <li class="list-group-item"> <fa-icon [icon] = "faArrowDown" style="color: blue;"></fa-icon>Min: {{day.temperature.min}}°</li>
-              </ul>   
-              <p class="card-text">{{day.text_icon.text.pt}}</p>
-          </div>
-        </div>    
+
+  <div class="panel panel-default" style="margin-top: 20px;">
+    <div class="panel-heading panel-title">Previsão para os próximos dias</div>
+    <div class="panel-body">
+      <div class="thumbnail col-6 col-sm-4 col-md-2 col-lg-2" *ngFor="let day of forecastNextDays">
+        <img src="../assets/icons/70px/{{day.text_icon.icon.day}}.png" style="margin: auto;">
+        <h5 class="panel-title"> {{day.date_br}}</h5>
+        <ul class="list-group" style="text-align: left">
+          <li class="list-group-item">
+            <fa-icon [icon]="faArrowUp" style="color: red;"></fa-icon> Max: {{day.temperature.max}}°
+          </li>
+          <li class="list-group-item">
+            <fa-icon [icon]="faArrowDown" style="color: blue;"></fa-icon>Min: {{day.temperature.min}}°
+          </li>
+        </ul>
+        <p class="card-text">{{day.text_icon.text.pt}}</p>
       </div>
     </div>
   </div>
-  <div class="container"  style="margin-top: 20px;">
-    <div class="card-group row">
-      <div class="card col-12 col-sm-12 col-md-6">
-        <div class="card-body">
-          <h5 class="card-title"> Temperatura Minima</h5>
+
+  <!-- <div class="container"  style="margin-top: 20px;">
+    <div class="panel panel-default row">
+      <div class="panel col-12 col-sm-12 col-md-6">
+        <div class="panel-body">
+          <h5 class="panel-title"> Temperatura Minima</h5>
           <div id="morris-extra-area-min"></div>
         </div>
       </div>
-      <div class="card col-12 col-sm-12 col-md-6">
-        <div class="card-body">
-          <h5 class="card-title"> Temperatura Maxima</h5> 
+      <div class="panel col-12 col-sm-12 col-md-6">
+        <div class="panel-body">
+          <h5 class="panel-title"> Temperatura Maxima</h5> 
           <div id="morris-extra-area-max"></div>
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>
-  <ng-template #loader>  
-    <div class="container" style="margin-top: 20px;">
-        <div class="loader"></div>
-    </div>
-  </ng-template>
- 
-  
-  <router-outlet></router-outlet>
-  
+<ng-template #loader>
+  <div class="container" style="margin-top: 20px;">
+    <div class="loader"></div>
+  </div>
+</ng-template>
+
+
+<router-outlet></router-outlet>

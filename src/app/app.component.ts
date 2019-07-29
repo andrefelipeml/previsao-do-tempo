@@ -6,7 +6,7 @@ import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { faCloudSun } from '@fortawesome/free-solid-svg-icons';
 
- declare var Morris: any;
+ // declare var Morris: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -114,7 +114,7 @@ export class AppComponent  {
       dataMin.push({ day: x.date, min: x.temperature.min });
     });
     setTimeout(() => {
-      Morris.Line({
+    /*  Morris.Line({
         element: 'morris-extra-area-max',
         data: dataMax,
         xkey: 'day',
@@ -141,7 +141,7 @@ export class AppComponent  {
         ymin: 'auto',
         xLabels: 'day',
         lineColors: [ '#0000FF']
-      });
+      });*/
     });
   }
 }
