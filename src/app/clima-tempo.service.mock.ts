@@ -28,7 +28,7 @@ export class ClimaTempoServiceMock {
     });
   }
 
-  getCities(): Observable<City> {
+  getCities(id): Observable<City> {
     return  Observable.create( observer => {
       observer.next([
         {
@@ -44,7 +44,7 @@ export class ClimaTempoServiceMock {
   getCityId(state, city)  {
     return  Observable.create( observer => {
       observer.next(
-        {'id':5090,'name':'Blumenau','state':'SC','country':'BR  '}
+      [{id:5090, name:'Blumenau', state:'SC', country:'BR  '}]
       );
       observer.complete();
     });

@@ -42,8 +42,6 @@ module.exports = function (config) {
     files: [
       "node_modules/jquery/dist/jquery.min.js",
       "node_modules/jquery-sparkline/jquery.sparkline.min.js",
-      "node_modules/raphael/raphael.js",
-      "node_modules/morris.js/morris.js"
     ],
   });
 };

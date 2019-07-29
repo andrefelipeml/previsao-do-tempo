@@ -1,18 +1,16 @@
 import { City } from './../models/city';
 import { State } from './../models/state';
 import { ClimaTempoService } from './clima-tempo.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, } from '@angular/core';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { faCloudSun } from '@fortawesome/free-solid-svg-icons';
-
- // declare var Morris: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.sass']
 })
-export class AppComponent  {
+export class AppComponent {
 
   response;
   title = 'tempo-clima';
@@ -51,10 +49,9 @@ export class AppComponent  {
       this.getInformations();
       this.loading = false;
     });
-
   }
 
- async getCities(id: string) {
+  getCities(id: string) {
     this.loading = true;
     this.climaTempoService.getCities(id).subscribe(x => {
       this.cities = x;
@@ -69,14 +66,13 @@ export class AppComponent  {
         this.response = x;
         this.forecastNextDays = x['data'].splice(1);
         this.forecastNextDays.forEach(y => {
-          if (new Date(y.date).getUTCDay()%6==0) {
+          if (new Date(y.date).getUTCDay() % 6 == 0) {
             this.weekend(y);
           }
         });
-        this.graphics();
         this.loading = false;
       });
-   });
+    });
   }
 
   favoriteCity() {
@@ -89,59 +85,24 @@ export class AppComponent  {
     if (this.whatDoOnweekend.length > 0 && this.whatDoOnweekend[0].rain && day.rain.probability > 0) {
       // chuva chuva
       this.whatDoOnweekend = [];
-      this.whatDoOnweekend.push({rain: true, text: `Final de semana com chuva, que tal ler um livro,
+      this.whatDoOnweekend.push({
+        rain: true, text: `Final de semana com chuva, que tal ler um livro,
       começar uma nova série na netflix ou aprender algo novo?`});
     } else if (this.whatDoOnweekend.length > 0 && !this.whatDoOnweekend[0].rain && day.rain.probability === 0) {
       // sol sol
       this.whatDoOnweekend = [];
-      this.whatDoOnweekend.push({rain: false, text: `Final de semana com sol, Que tal curtir um tempo ao ar livre? fazer um piquenique,
+      this.whatDoOnweekend.push({
+        rain: false, text: `Final de semana com sol, Que tal curtir um tempo ao ar livre? fazer um piquenique,
        andar de bicicleta pela cidade ou aprender um novo esporte?`});
     } else if (day.rain.probability > 0) {
-      this.whatDoOnweekend.push({rain: true, text: `${day.date_br}: vai chover, que tal ler um livro,
+      this.whatDoOnweekend.push({
+        rain: true, text: `${day.date_br}: vai chover, que tal ler um livro,
       ou começar uma nova série na netflix?`});
     } else {
-      this.whatDoOnweekend.push({rain: false, text: `${day.date_br}: vai dar sol, Que tal curtir um tempo ao ar livre?
+      this.whatDoOnweekend.push({
+        rain: false, text: `${day.date_br}: vai dar sol, Que tal curtir um tempo ao ar livre?
       fazer um piquenique, andar de bicicleta pela cidade ou aprender um novo esporte?`});
     }
   }
 
-  graphics() {
-    const dataMax = [];
-    const dataMin = [];
-    // '#0000FF',
-    this.forecastNextDays.forEach(x => {
-      dataMax.push({ day: x.date, max: x.temperature.max });
-      dataMin.push({ day: x.date, min: x.temperature.min });
-    });
-    setTimeout(() => {
-    /*  Morris.Line({
-        element: 'morris-extra-area-max',
-        data: dataMax,
-        xkey: 'day',
-        ykeys: ['max'],
-        labels: ['Maximo'],
-        hideHover: false,
-        resize: true,
-        smooth: false,
-        ymax: 'auto',
-        ymin: 'auto',
-        xLabels: 'day',
-        lineColors: [ '#FF0000']
-      });
-      Morris.Line({
-        element: 'morris-extra-area-min',
-        data: dataMin,
-        xkey: 'day',
-        ykeys: ['min'],
-        labels: ['Minimo'],
-        hideHover: false,
-        resize: true,
-        smooth: false,
-        ymax: 'auto',
-        ymin: 'auto',
-        xLabels: 'day',
-        lineColors: [ '#0000FF']
-      });*/
-    });
-  }
 }

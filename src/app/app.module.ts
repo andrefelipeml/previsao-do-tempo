@@ -7,9 +7,12 @@ import { AppComponent } from './app.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { ChartsModule } from 'ng2-charts';
+import { GraphicsComponent } from './graphics/graphics.component';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    GraphicsComponent
   ],
   imports: [
     BrowserModule,
@@ -17,6 +20,7 @@ import { FormsModule } from '@angular/forms';
     FontAwesomeModule,
     HttpClientModule,
     FormsModule,
+    ChartsModule
   ],
   providers: [ClimaTempoService],
   bootstrap: [AppComponent]

@@ -21,12 +21,11 @@ export class ClimaTempoService {
 }
 
   get(id) {
-    return this.http.get(`${this.url}forecast/locale/${id}/days/15?token=${this.token}`);
+   return this.http.get(`${this.url}forecast/locale/${id}/days/15?token=${this.token}`);
   }
 
   getCityId(state, city): Observable<City[]> {
     return this.http.get<City[]>(`${this.url}locale/city?name=${city}&state=${state}&token=${this.token}`);
-    
   }
 
 }
