@@ -4,6 +4,13 @@
     Previsão do tempo
   </h1>
 </div>
+<div class="container" *ngIf="showMessage">
+    <div class="alert alert-success la">
+      <a href="#" class="close" (click)="this.showMessage = false">&times;</a>
+      <strong>{{citySelected }}</strong> Definido como cidade favorita!
+    </div>
+</div>
+  
 <div class="container">
   <div class="row">
     <div class="col-12 col-sm-12 col-md-5">

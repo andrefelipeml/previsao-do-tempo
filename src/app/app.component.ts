@@ -24,6 +24,7 @@ export class AppComponent {
   public loading: boolean;
   forecastNextDays = new Array();
   whatDoOnweekend = new Array();
+  showMessage = false;
 
   constructor(private climaTempoService: ClimaTempoService) {
     this.loading = true;
@@ -79,6 +80,7 @@ export class AppComponent {
   favoriteCity() {
     localStorage.setItem('state', this.stateSelected);
     localStorage.setItem('city', this.citySelected);
+    this.showMessage = true;
   }
 
 
