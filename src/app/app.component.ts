@@ -65,6 +65,7 @@ export class AppComponent {
       this.climaTempoService.get(city[0].id).subscribe(x => {
         this.response = x;
         this.forecastNextDays = x['data'].splice(1);
+        this.whatDoOnweekend = [];
         this.forecastNextDays.forEach(y => {
           if (new Date(y.date).getUTCDay() % 6 == 0) {
             this.weekend(y);

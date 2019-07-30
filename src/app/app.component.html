@@ -8,20 +8,20 @@
   <div class="row">
     <div class="col-12 col-sm-12 col-md-5">
       <select name="state" #state="ngModel" id="state" [(ngModel)]="stateSelected" (change)="getCities(stateSelected)"
-        name="state" class="form-control">
+        name="state" class="form-control form-group">
         <option *ngFor="let state of states" [id]="state.id" [value]="state.id"> {{state.estado}}
         </option>
       </select>
     </div>
     <div class="col-12 col-sm-12 col-md-5">
       <input name="city" #city="ngModel" id="city" [(ngModel)]="citySelected" (change)="getInformations()"
-        class="form-control" type="text" list="cityIds" />
+        class="form-control form-group" type="text" list="cityIds" />
       <datalist id="cityIds">
         <option *ngFor="let city of cities; let i = index" [id]="i" [value]="city.cidade">{{city.cidade }}</option>
       </datalist>
     </div>
     <div class="col-12 col-sm-12 col-md-2">
-      <button class="btn btn-primary" (click)="favoriteCity()">Favoritar Cidade</button>
+      <button class="btn btn-primary form-group" (click)="favoriteCity()">Favoritar Cidade</button>
     </div>
   </div>
 </div>
